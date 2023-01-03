@@ -1,0 +1,8 @@
+select sum(laptop_count) as "laptop_views",
+sum(mobile_count) as "mobile_views"
+from (select case when device_type='laptop' then sum(cnt) end as "laptop_count",
+ case when device_type in ('phone','tablet') then sum(cnt) end as "mobile_count"
+from (
+select device_type,count(user_id) as cnt from viewership
+group by device_type) a group by device_type
+) as b;
